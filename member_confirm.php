@@ -58,20 +58,9 @@ $signUpMessage = "";
         </div>
       </form>
       
-      <form action="member_regist.php" method="post">
-        <!-- 入力値を hidden で渡す（セッションの値を使用） -->
-        <input type="hidden" name="last_name" value="<?= htmlspecialchars($form['last_name']) ?>">
-        <input type="hidden" name="first_name" value="<?= htmlspecialchars($form['first_name']) ?>">
-        <input type="hidden" name="gender" value="<?= htmlspecialchars($form['gender']) ?>">
-        <input type="hidden" name="prefecture" value="<?= htmlspecialchars($form['prefecture']) ?>">
-        <input type="hidden" name="address" value="<?= htmlspecialchars($form['address']) ?>">
-        <input type="hidden" name="password" value="<?= htmlspecialchars($form['password']) ?>">
-        <input type="hidden" name="confirm_password" value="<?= htmlspecialchars($form['confirm_password']) ?>">
-        <input type="hidden" name="email" value="<?= htmlspecialchars($form['email']) ?>">
-        <div class="buttons">
-          <button type="submit" class="btn back">前へ戻る</button>
-        </div>
-      </form>
+      <div class="buttons">
+        <a href="戻る先のURL.php" class="btn back">前へ戻る</a>
+      </div>
 
     </div>
   </body>
