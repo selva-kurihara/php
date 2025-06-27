@@ -59,7 +59,7 @@ $signUpMessage = "";
       </form>
       
       <div class="buttons">
-        <a href="戻る先のURL.php" class="btn back">前へ戻る</a>
+        <a href="member_regist.php" class="btn back">前へ戻る</a>
       </div>
 
     </div>
