@@ -5,9 +5,6 @@ session_start();
 // エラーメッセージの初期化
 $errorMessages = [];
 
-// POSTを受け取った場合
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-
   // 都道府県
 	$prefectures = [
     '北海道', '青森県', '岩手県', '宮城県', '秋田県', '山形県', '福島県',
@@ -19,6 +16,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     '徳島県', '香川県', '愛媛県', '高知県',
     '福岡県', '佐賀県', '長崎県', '熊本県', '大分県', '宮崎県', '鹿児島県', '沖縄県'
   ];
+
+
+// POSTを受け取った場合
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+
 
 	// エラーチェック
 	if (empty($_POST["last_name"])) {
@@ -109,14 +112,14 @@ $email        = isset($_POST['email']) ? $_POST['email'] : (isset($_SESSION['for
         <label>姓</label> <input type="text" name="last_name" value="<?= htmlspecialchars($last_name) ?>">
         <?php
           if (!empty($errorMessages["last_name"])) {
-            echo $errorMessages["last_name"];
+            echo '<p class="error">'. $errorMessages["last_name"]. '</p>';
           }
         ?>
 
         <label>名</label> <input type="text" name="first_name" value="<?= htmlspecialchars($first_name) ?>">
         <?php
           if (!empty($errorMessages["first_name"])) {
-            echo $errorMessages["first_name"];
+            echo '<p class="error">' . $errorMessages["first_name"]. '</p>';
           }
         ?>
       
@@ -125,7 +128,7 @@ $email        = isset($_POST['email']) ? $_POST['email'] : (isset($_SESSION['for
         <label class="gender"><input type="radio" name="gender" value="女性" <?= $gender === '女性' ? 'checked' : '' ?>> 女性</label>
         <?php 
           if (!empty($errorMessages["gender"])) {
-            echo $errorMessages["gender"];
+            echo '<p class="error">' . $errorMessages["gender"]. '</p>';
           }
         ?>
 
@@ -141,7 +144,7 @@ $email        = isset($_POST['email']) ? $_POST['email'] : (isset($_SESSION['for
         </select>
         <?php 
           if (!empty($errorMessages["prefecture"])) {
-            echo $errorMessages["prefecture"];
+            echo '<p class="error">' . $errorMessages["prefecture"] . '</p>';
           }
         ?>
         
@@ -149,7 +152,7 @@ $email        = isset($_POST['email']) ? $_POST['email'] : (isset($_SESSION['for
         <input type="text" name="address" value="<?= htmlspecialchars($address) ?>">
         <?php 
           if (!empty($errorMessages["address"])) {
-            echo $errorMessages["address"];
+            echo '<p class="error">' . $errorMessages["address"]. '</p>';
           }
         ?>
 
@@ -157,7 +160,7 @@ $email        = isset($_POST['email']) ? $_POST['email'] : (isset($_SESSION['for
         <input type="password" name="password" value="">
         <?php 
           if (!empty($errorMessages["password"])) {
-            echo $errorMessages["password"];
+            echo '<p class="error">' . $errorMessages["password"]. '</p>';
           }
         ?>
 
@@ -165,7 +168,7 @@ $email        = isset($_POST['email']) ? $_POST['email'] : (isset($_SESSION['for
         <input type="password" name="password_confirm" value="">
         <?php 
           if (!empty($errorMessages["password_confirm"])) {
-            echo $errorMessages["password_confirm"];
+            echo '<p class="error">' . $errorMessages["password_confirm"]. '</p>';
           }
         ?>
 
@@ -173,7 +176,7 @@ $email        = isset($_POST['email']) ? $_POST['email'] : (isset($_SESSION['for
         <input type="email" name="email" value="<?= htmlspecialchars($email) ?>">
         <?php 
           if (!empty($errorMessages["email"])) {
-            echo $errorMessages["email"];
+            echo '<p class="error">' . $errorMessages["email"]. '</p>';
           }
         ?>
 
