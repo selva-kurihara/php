@@ -78,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
   if (empty($_POST["gender"])) {
     $errorMessages["gender"] = '性別が未入力です。';
-  } else if ($_POST["gender"] !== '男性' && $_POST["gender"] !== '女性') {
+  } else if ($_POST["gender"] !== '1' && $_POST["gender"] !== '2') {
     $errorMessages["gender"] = '性別の値が不正です。';
   }
 
@@ -110,6 +110,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $errorMessages["email"] = 'メールアドレスは200文字以内で入力してください。';
   } else if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
     $errorMessages["email"] = 'メールアドレスの形式が正しくありません。';
+  }
+
+  if (empty($errorMessages["email"])) {
+    try {
+      $dsn      = 'mysql:dbname=phpkadai;host=localhost;charset=utf8';
+      $user     = 'kurihara';
+      $password = 'uCmCLu2e8H';
+      $pdo      = new PDO($dsn, $user, $password);
+      $stmt     = $pdo->prepare('SELECT COUNT(*) FROM members WHERE email = :email');
+      $stmt->bindValue(':email', $_POST['email'], PDO::PARAM_STR);
+      $stmt->execute();
+      $count = (int)$stmt->fetchColumn();
+      if ($count > 0) {
+        $errorMessages["email"] = 'このメールアドレスは既に使われています。';
+      }
+    } catch (PDOException $e) {
+      error_log('DBエラー: ' . $e->getMessage());
+      $errorMessages["email"] = 'システムエラーが発生しました。';
+    }
   }
 
   // 「確認へ進む」ボタンが押された場合のみ、セッション保存＋リダイレクト
@@ -162,8 +181,8 @@ $email        = isset($_POST['email']) ? $_POST['email'] : (isset($_SESSION['for
       ?>
 
       <label>性別</label>
-      <label class="gender"><input type="radio" name="gender" value="男性" <?= $gender === '男性' ? 'checked' : '' ?>> 男性</label>
-      <label class="gender"><input type="radio" name="gender" value="女性" <?= $gender === '女性' ? 'checked' : '' ?>> 女性</label>
+      <label class="gender"><input type="radio" name="gender" value="1" <?= $gender === '1' ? 'checked' : '' ?>> 男性</label>
+      <label class="gender"><input type="radio" name="gender" value="2" <?= $gender === '2' ? 'checked' : '' ?>> 女性</label>
       <?php
       if (!empty($errorMessages["gender"])) {
         echo '<p class="error">' . $errorMessages["gender"] . '</p>';

@@ -1,23 +1,56 @@
 <?php
-// セッション開始
 session_start();
-
-// 登録画面からの遷移でなければ、登録画面にリダイレクト
-if (!isset($_SESSION['form'])) {
-  header("Location: member_regist.php");
-  exit;
-}
 
 $form = $_SESSION['form'];
 
-// 登録完了メッセージの初期化
-$signUpMessage = "";
+// トークン生成（1回目の表示時のみ）
+if (!isset($_SESSION['token'])) {
+  $_SESSION['token'] = bin2hex(random_bytes(16));
+}
+$token = $_SESSION['token'];
 
-// $db['host'] = "localhost";  // DBサーバのURL
-// $db['user'] = "hogeUser";  // ユーザー名
-// $db['pass'] = "hogehoge";  // ユーザー名のパスワード
-// $db['dbname'] = "loginManagement";  // データベース名
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["complete"])) {
+
+  // トークンチェック＆二重送信スキップ
+  if (!isset($_POST["token"]) || $_POST["token"] !== $_SESSION['token']) {
+    // トークンが消費済み＝二重送信と判断 → 完了画面にリダイレクト
+    header('Location: member_complete.php');
+    exit;
+  }
+
+  // トークン無効化（使い捨て）
+  unset($_SESSION['token']);
+
+  try {
+    // DB接続
+    $dsn = 'mysql:dbname=phpkadai;host=localhost;charset=utf8;';
+    $user = 'kurihara';
+    $password = 'uCmCLu2e8H';
+    $pdo = new PDO($dsn, $user, $password);
+    
+    // 新規登録
+    $prepare = $pdo->prepare('INSERT INTO members (name_sei, name_mei, gender, pref_name, address, password, email, created_at) VALUES (:name_sei, :name_mei, :gender, :pref_name, :address, :password, :email, NOW())');
+    $prepare->bindValue(':name_sei', $form['last_name'], PDO::PARAM_STR);
+    $prepare->bindValue(':name_mei', $form['first_name'], PDO::PARAM_STR);
+    $prepare->bindValue(':gender', $form['gender'], PDO::PARAM_INT);
+    $prepare->bindValue(':pref_name', $form['prefecture'], PDO::PARAM_STR);
+    $prepare->bindValue(':address', $form['address'], PDO::PARAM_STR);
+    $prepare->bindValue(':password', $form['password'], PDO::PARAM_STR);
+    $prepare->bindValue(':email', $form['email'], PDO::PARAM_STR);
+    $prepare->execute();
+    
+    // 完了後にセッションのformも破棄
+    unset($_SESSION['form']);
+
+    header('Location: member_complete.php');
+    exit;
+  } catch (PDOException $e) {
+    error_log('DBエラー: ' . $e->getMessage());
+    echo 'DBエラーが発生しました。';
+  }
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -30,12 +63,23 @@ $signUpMessage = "";
 <body>
   <div class="container">
     <h2>会員情報確認画面</h2>
-    <form action="member_complete.php" method="post">
+    <form action="member_confirm.php" method="post">
       <!-- 氏名 -->
       <div class="row"><span class="label">氏名</span><span class="value"><?= htmlspecialchars($form['last_name'] . '　' . $form['first_name']) ?></span></div>
 
       <!-- 性別 -->
-      <div class="row"><span class="label">性別</span><span class="value"><?= htmlspecialchars($form['gender']) ?></span></div>
+      <div class="row">
+        <span class="label">性別</span>
+        <span class="value">
+          <?php
+          if ($form['gender'] == 1) {
+            echo '男性';
+          } else {
+            echo '女性';
+          }
+          ?>
+        </span>
+      </div>
 
       <!-- 住所 -->
       <div class="row"><span class="label">住所</span><span class="value"><?= htmlspecialchars($form['prefecture'] . $form['address']) ?></span></div>
@@ -46,17 +90,9 @@ $signUpMessage = "";
       <!-- メールアドレス -->
       <div class="row"><span class="label">メールアドレス</span><span class="value"><?= htmlspecialchars($form['email']) ?></span></div>
 
-      <!-- hidden inputs -->
-      <input type="hidden" name="last_name" value="<?= htmlspecialchars($form['last_name']) ?>">
-      <input type="hidden" name="first_name" value="<?= htmlspecialchars($form['first_name']) ?>">
-      <input type="hidden" name="gender" value="<?= htmlspecialchars($form['gender']) ?>">
-      <input type="hidden" name="prefecture" value="<?= htmlspecialchars($form['prefecture']) ?>">
-      <input type="hidden" name="address" value="<?= htmlspecialchars($form['address']) ?>">
-      <input type="hidden" name="password" value="<?= htmlspecialchars($form['password']) ?>">
-      <input type="hidden" name="email" value="<?= htmlspecialchars($form['email']) ?>">
-
       <div class="buttons">
-        <button type="submit" class="btn submit">登録完了</button>
+        <input type="hidden" name="token" value="<?= htmlspecialchars($token) ?>">
+        <button type="submit" class="btn submit" name="complete">登録完了</button>
       </div>
     </form>
 
