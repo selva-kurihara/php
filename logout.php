@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
 }
 
 // ログイン状態かどうかを判定
-$isLoggedIn = isset($_SESSION['username']);
+$isLoggedIn = isset($_SESSION['user']);
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +27,7 @@ $isLoggedIn = isset($_SESSION['username']);
 
   <div class="header">
     <?php if ($isLoggedIn): ?>
-      <div class="welcome">ようこそ <?php echo htmlspecialchars($_SESSION['username'], ENT_QUOTES, 'UTF-8'); ?> 様</div>
+      <div class="welcome">ようこそ <?php echo htmlspecialchars($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8'); ?> 様</div>
       <!-- ログアウトボタン（同じファイルにPOST） -->
       <form method="post" style="margin: 0;">
         <a href="thread_regist.php" class="login-button">新規スレッド作成</a>

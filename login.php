@@ -23,11 +23,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt->bindValue(':email', $_POST['email'], PDO::PARAM_STR);
     $stmt->bindValue(':password', $_POST['password'], PDO::PARAM_STR);
     $stmt->execute();
-
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user) {
-      $_SESSION['username'] = $user['name_sei'] . $user['name_mei']; 
+      $_SESSION['user'] = [
+        'id' => $user['id'],
+        'username' => $user['name_sei'] . $user['name_mei']
+      ];
       header("Location: logout.php");
       exit;
     } else {

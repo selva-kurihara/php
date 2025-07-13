@@ -243,6 +243,9 @@ $email        = isset($_POST['email']) ? $_POST['email'] : (isset($_SESSION['for
       </div>
 
     </form>
+    <div class="buttons">
+      <a href="logout.php" class="btn back">トップに戻る</a>
+    </div>
   </div>
 </body>
 

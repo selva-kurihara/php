@@ -1,50 +1,125 @@
 body {
-  font-family: sans-serif;
-  background-color: #f0f8ff;
+  font-family: 'Hiragino Kaku Gothic ProN', 'メイリオ', sans-serif;
+  background: #f4f4f4;
+  margin: 0;
+  padding: 20px;
 }
 
 .container {
-  background-color: #dbeeff;
-  border: 1px solid #000;
-  padding: 30px;
-  width: 500px;
-  margin: 50px auto;
-  border-radius: 10px;
+  width: 600px;
+  margin: 0 auto;
+  background: #e6f0fa;
+  padding: 30px 40px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
 }
 
 h2 {
   text-align: center;
+  margin-bottom: 30px;
+  font-size: 24px;
   font-weight: bold;
+  color: #333;
 }
 
 label {
   display: block;
-  margin-top: 10px;
+  margin-top: 20px;
+  font-weight: bold;
+  color: #333;
 }
 
-input,
+input[type="text"],
+input[type="email"],
+input[type="password"],
 select {
   width: 100%;
-  padding: 5px;
-  margin-top: 5px;
+  padding: 8px;
+  margin-top: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-color: #fff;
 }
 
 .gender {
   display: inline-block;
-  margin-right: 10px;
+  margin-right: 20px;
+  font-weight: normal;
 }
 
-.row {
-  margin-bottom: 10px;
+.error {
+  color: red;
+  font-size: 13px;
+  margin-top: 4px;
 }
 
-.label {
+.buttons {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.btn {
+  background-color: #3478f6;
+  color: white;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 0 10px;
+  text-decoration: none;
   display: inline-block;
-  width: 100px;
 }
 
-.value {
+.btn:hover {
+  background-color: #285ec6;
+}
+
+.btn.back {
+  background-color: #888;
+}
+
+.btn.back:hover {
+  background-color: #666;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+}
+
+.container {
+  background-color: #dceeff;
+  width: 600px;
+  margin: 50px auto;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+label {
   display: inline-block;
+  width: 120px;
+  margin-top: 15px;
+}
+
+input[type="text"],
+textarea {
+  width: 400px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+textarea {
+  height: 150px;
+  resize: none;
 }
 
 .buttons {
@@ -54,26 +129,20 @@ select {
 
 .btn {
   padding: 10px 20px;
-  margin: 5px;
+  margin: 10px;
   font-size: 16px;
-  border: none;
   border-radius: 6px;
   cursor: pointer;
 }
 
-.submit {
-  background-color: #337ab7;
+.btn-confirm {
+  background-color: #2f6fd8;
   color: white;
+  border: none;
 }
 
-.back {
-  background-color: #ffffff;
-  color: #337ab7;
-  border: 2px solid #337ab7;
-}
-
-.error {
-  color: red;
-  font-size: 12px;
-  margin-left: 10px;
+.btn-top {
+  background-color: white;
+  color: #2f6fd8;
+  border: 2px solid #2f6fd8;
 }
