@@ -166,81 +166,86 @@ $email        = isset($_POST['email']) ? $_POST['email'] : (isset($_SESSION['for
     <form action="member_regist.php" method="post">
 
       <label>氏名</label>
-      <label>姓</label> <input type="text" name="last_name" value="<?= htmlspecialchars($last_name) ?>">
-      <?php
-      if (!empty($errorMessages["last_name"])) {
-        echo '<p class="error">' . $errorMessages["last_name"] . '</p>';
-      }
-      ?>
+      <div class="name-group">
+        <label>姓</label> <input type="text" name="last_name" value="<?= htmlspecialchars($last_name) ?>">
+        <?php
+        if (!empty($errorMessages["last_name"])) {
+          echo '<p class="error">' . $errorMessages["last_name"] . '</p>';
+        }
+        ?>
 
-      <label>名</label> <input type="text" name="first_name" value="<?= htmlspecialchars($first_name) ?>">
-      <?php
-      if (!empty($errorMessages["first_name"])) {
-        echo '<p class="error">' . $errorMessages["first_name"] . '</p>';
-      }
-      ?>
-
-      <label>性別</label>
-      <label class="gender"><input type="radio" name="gender" value="1" <?= $gender === '1' ? 'checked' : '' ?>> 男性</label>
-      <label class="gender"><input type="radio" name="gender" value="2" <?= $gender === '2' ? 'checked' : '' ?>> 女性</label>
-      <?php
-      if (!empty($errorMessages["gender"])) {
-        echo '<p class="error">' . $errorMessages["gender"] . '</p>';
-      }
-      ?>
-
-      <label>住所</label>
-      都道府県
-      <select name="prefecture">
-        <option value="" <?php echo $prefecture === '' ? 'selected' : '' ?>>選択してください▼</option>
-        <?php foreach ($prefectures as $p): ?>
-          <option value="<?php echo htmlspecialchars($p) ?>" <?php echo $prefecture === $p ? 'selected' : '' ?>>
-            <?php echo htmlspecialchars($p) ?>
-          </option>
-        <?php endforeach; ?>
-      </select>
-      <?php
-      if (!empty($errorMessages["prefecture"])) {
-        echo '<p class="error">' . $errorMessages["prefecture"] . '</p>';
-      }
-      ?>
-
-      <label>それ以降の住所</label>
-      <input type="text" name="address" value="<?= htmlspecialchars($address) ?>">
-      <?php
-      if (!empty($errorMessages["address"])) {
-        echo '<p class="error">' . $errorMessages["address"] . '</p>';
-      }
-      ?>
-
-      <label>パスワード</label>
-      <input type="password" name="password" value="">
-      <?php
-      if (!empty($errorMessages["password"])) {
-        echo '<p class="error">' . $errorMessages["password"] . '</p>';
-      }
-      ?>
-
-      <label>パスワード確認</label>
-      <input type="password" name="password_confirm" value="">
-      <?php
-      if (!empty($errorMessages["password_confirm"])) {
-        echo '<p class="error">' . $errorMessages["password_confirm"] . '</p>';
-      }
-      ?>
-
-      <label>メールアドレス</label>
-      <input type="email" name="email" value="<?= htmlspecialchars($email) ?>">
-      <?php
-      if (!empty($errorMessages["email"])) {
-        echo '<p class="error">' . $errorMessages["email"] . '</p>';
-      }
-      ?>
-
-      <input type="hidden" name="action" value="confirm">
-      <div class="buttons">
-        <button type="submit" class="btn">確認画面へ</button>
+        <label>名</label> <input type="text" name="first_name" value="<?= htmlspecialchars($first_name) ?>">
+        <?php
+        if (!empty($errorMessages["first_name"])) {
+          echo '<p class="error">' . $errorMessages["first_name"] . '</p>';
+        }
+        ?>
       </div>
+
+      <div class="gender-group">
+        <label>性別</label>
+        <label class="gender"><input type="radio" name="gender" value="1" <?= $gender === '1' ? 'checked' : '' ?>> 男性</label>
+        <label class="gender"><input type="radio" name="gender" value="2" <?= $gender === '2' ? 'checked' : '' ?>> 女性</label>
+        <?php
+        if (!empty($errorMessages["gender"])) {
+          echo '<p class="error">' . $errorMessages["gender"] . '</p>';
+        }
+        ?>
+      </div>
+
+      <div class="prefecture-group">
+        <label>住所</label>
+        都道府県
+        <select name="prefecture">
+          <option value="" <?php echo $prefecture === '' ? 'selected' : '' ?>>選択してください▼</option>
+          <?php foreach ($prefectures as $p): ?>
+            <option value="<?php echo htmlspecialchars($p) ?>" <?php echo $prefecture === $p ? 'selected' : '' ?>>
+              <?php echo htmlspecialchars($p) ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
+        <?php
+        if (!empty($errorMessages["prefecture"])) {
+          echo '<p class="error">' . $errorMessages["prefecture"] . '</p>';
+        }
+        ?>
+      </div>
+        <label>それ以降の住所</label>
+        <input type="text" name="address" value="<?= htmlspecialchars($address) ?>">
+        <?php
+        if (!empty($errorMessages["address"])) {
+          echo '<p class="error">' . $errorMessages["address"] . '</p>';
+        }
+        ?>
+
+        <label>パスワード</label>
+        <input type="password" name="password" value="">
+        <?php
+        if (!empty($errorMessages["password"])) {
+          echo '<p class="error">' . $errorMessages["password"] . '</p>';
+        }
+        ?>
+
+        <label>パスワード確認</label>
+        <input type="password" name="password_confirm" value="">
+        <?php
+        if (!empty($errorMessages["password_confirm"])) {
+          echo '<p class="error">' . $errorMessages["password_confirm"] . '</p>';
+        }
+        ?>
+
+        <label>メールアドレス</label>
+        <input type="email" name="email" value="<?= htmlspecialchars($email) ?>">
+        <?php
+        if (!empty($errorMessages["email"])) {
+          echo '<p class="error">' . $errorMessages["email"] . '</p>';
+        }
+        ?>
+
+        <input type="hidden" name="action" value="confirm">
+        <div class="buttons">
+          <button type="submit" class="btn">確認画面へ</button>
+        </div>
 
     </form>
     <div class="buttons">

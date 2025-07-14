@@ -36,7 +36,7 @@ try {
   unset($_SESSION['form']);
 
   // 完了後にトップへ
-  header('Location: logout.php');
+  header('Location: thread.php');
   exit;
 } catch (PDOException $e) {
   echo 'エラーが発生しました：' . htmlspecialchars($e->getMessage(), ENT_QUOTES);

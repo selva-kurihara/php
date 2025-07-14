@@ -26,6 +26,7 @@ $isLoggedIn = isset($_SESSION['user']);
 <body>
 
   <div class="header">
+    <a href="thread.php" class="login-button">スレッド一覧</a>
     <?php if ($isLoggedIn): ?>
       <div class="welcome">ようこそ <?php echo htmlspecialchars($_SESSION['user']['username'], ENT_QUOTES, 'UTF-8'); ?> 様</div>
       <!-- ログアウトボタン（同じファイルにPOST） -->

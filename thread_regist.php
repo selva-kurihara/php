@@ -75,6 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
       <div class="buttons">
         <button type="submit" class="btn btn-confirm">確認画面へ</button>
+        <button type="button" class="btn btn-top" onclick="location.href='thread.php'">一覧に戻る</button>
         <button type="button" class="btn btn-top" onclick="location.href='logout.php'">トップに戻る</button>
       </div>
   </div>
