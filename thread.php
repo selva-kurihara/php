@@ -41,9 +41,9 @@ try {
 <body class="thread-page">
   <div class="thread-container">
     <?php if ($isLoggedIn): ?>
-    <div class="thread-header">
-      <a href="thread_regist.php">新規スレッド作成</a>
-    </div>
+      <div class="thread-header">
+        <a href="thread_regist.php">新規スレッド作成</a>
+      </div>
     <?php endif; ?>
     <form class="thread-search-form" action="thread.php" method="get">
       <input type="text" name="keyword" placeholder="スレッドを検索" value="<?= htmlspecialchars($_GET['keyword'] ?? '', ENT_QUOTES) ?>">
@@ -54,13 +54,13 @@ try {
       <?php if (!empty($threads)): ?>
         <?php foreach ($threads as $thread): ?>
           <div>
-            ID:<?= htmlspecialchars($thread['id'], ENT_QUOTES) ?>
-            <?= htmlspecialchars($thread['title'], ENT_QUOTES) ?>
-            <?= date('Y.n.j H:i', strtotime($thread['created_at'])) ?>
+            <a href="thread_detail.php?id=<?= urlencode($thread['id']) ?>">
+              ID:<?= htmlspecialchars($thread['id'], ENT_QUOTES) ?>
+              <?= htmlspecialchars($thread['title'], ENT_QUOTES) ?>
+              <?= date('Y.n.j H:i', strtotime($thread['created_at'])) ?>
+            </a>
           </div>
         <?php endforeach; ?>
-      <?php else: ?>
-        <div>スレッドが見つかりませんでした。</div>
       <?php endif; ?>
     </div>
 
