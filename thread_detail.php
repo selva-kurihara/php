@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
       <?= date('Y.n.j H:i', strtotime($thread['created_at'])) ?>
     </p>
     <div class="thread-content">
-      <?= nl2br(htmlspecialchars($thread['content'], ENT_QUOTES)) ?>
+      <?= nl2br(htmlspecialchars(trim($thread['content']), ENT_QUOTES)) ?>
     </div>
   </div>
 
