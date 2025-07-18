@@ -279,6 +279,10 @@ textarea {
   color: #333;
 }
 
+.thread-comments {
+  text-align: center;
+}
+
 .thread-date {
   text-align: center;
   color: #666;
@@ -323,4 +327,113 @@ textarea {
 .comment-form .buttons {
   text-align: right;
   margin-top: 15px;
+}
+
+/* スレッド投稿（吹き出し風） */
+.thread-post {
+  background-color: #fff;
+  border: 2px solid #3478f6;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 30px;
+  line-height: 1.8em;
+  color: #333;
+  position: relative;
+}
+
+.thread-post::before {
+  content: "";
+  position: absolute;
+  left: 20px;
+  top: 100%;
+  width: 0;
+  height: 0;
+  border: 12px solid transparent;
+  border-top-color: #3478f6;
+}
+
+/* コメント一覧 */
+.comments-list {
+  background-color: #e6f4ff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 30px;
+}
+
+.comment-item {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+
+.comment-meta {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.comment-content {
+  font-size: 14px;
+  color: #333;
+  padding-left: 10px;
+}
+
+/* ページネーション */
+.pagination {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.pagination a {
+  display: inline-block;
+  margin: 0 8px;
+  color: #3478f6;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.pagination a:hover {
+  text-decoration: underline;
+}
+
+/* コメントフォーム */
+.comment-form textarea {
+  width: 100%;
+  height: 120px;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  resize: none;
+  box-sizing: border-box;
+}
+
+.comment-form .buttons {
+  text-align: rig
+}
+
+.pagination {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 14px;
+}
+
+.pagination a.active {
+  display: inline-block;
+  margin: 0 10px;
+  color: #3478f6;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.pagination a.active:hover {
+  text-decoration: underline;
+}
+
+.pagination .disabled {
+  display: inline-block;
+  margin: 0 10px;
+  color: #aaa;
+  font-weight: bold;
+  cursor: default;
 }
