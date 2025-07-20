@@ -437,3 +437,37 @@ textarea {
   font-weight: bold;
   cursor: default;
 }
+
+.comment-item {
+  border: 1px solid #ccc;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  position: relative;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comment-meta {
+  font-size: 13px;
+  color: #555;
+}
+
+.like-form {
+  margin: 0;
+}
+
+.like-button {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.like-button.liked {
+  color: red;
+}

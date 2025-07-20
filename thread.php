@@ -54,7 +54,7 @@ try {
       <?php if (!empty($threads)): ?>
         <?php foreach ($threads as $thread): ?>
           <div>
-            <a href="thread_detail.php?id=<?= urlencode($thread['id']) ?>">
+            <a href="thread_detail.php?id=<?= urlencode($thread['id'])?>">
               ID:<?= htmlspecialchars($thread['id'], ENT_QUOTES) ?>
               <?= htmlspecialchars($thread['title'], ENT_QUOTES) ?>
               <?= date('Y.n.j H:i', strtotime($thread['created_at'])) ?>
