@@ -33,6 +33,7 @@ $isLoggedIn = isset($_SESSION['user']);
       <form method="post" style="margin: 0;">
         <a href="thread_regist.php" class="login-button">新規スレッド作成</a>
         <button type="submit" name="logout" class="logout-button">ログアウト</button>
+        <a href="member_withdrawal.php" class="btn btn-top">退会</a>
       </form>
     <?php else: ?>
       <a href="member_regist.php" class="login-button">新規会員登録</a>

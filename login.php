@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $user     = 'kurihara';
     $password = 'uCmCLu2e8H';
     $pdo      = new PDO($dsn, $user, $password);
-    $stmt = $pdo->prepare('SELECT * FROM members WHERE email = :email AND password = :password');
+    $stmt = $pdo->prepare('SELECT * FROM members WHERE email = :email AND password = :password AND deleted_at IS NULL');
     $stmt->bindValue(':email', $_POST['email'], PDO::PARAM_STR);
     $stmt->bindValue(':password', $_POST['password'], PDO::PARAM_STR);
     $stmt->execute();
