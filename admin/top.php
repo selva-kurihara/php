@@ -27,13 +27,16 @@ $isLoggedIn = isset($_SESSION['administer']);
 
   <div class="header">
     <h2>掲示板管理画面メインメニュー</h2>
-      <?php if ($isLoggedIn): ?>
-        <div class="welcome">ようこそ <?php echo htmlspecialchars($_SESSION['administer']['name'], ENT_QUOTES, 'UTF-8'); ?> さん</div>
-        <!-- ログアウトボタン（同じファイルにPOST） -->
-        <form method="post" style="margin: 0;">
-          <button type="submit" name="logout" class="logout-button">ログアウト</button>
-        </form>
-      <?php endif; ?>
+    <?php if ($isLoggedIn): ?>
+      <div class="welcome">ようこそ <?php echo htmlspecialchars($_SESSION['administer']['name'], ENT_QUOTES, 'UTF-8'); ?> さん</div>
+      <!-- ログアウトボタン（同じファイルにPOST） -->
+      <form method="post" style="margin: 0;">
+        <button type="submit" name="logout" class="logout-button">ログアウト</button>
+      </form>
+      <div class="buttons">
+        <a href="member.php" class="btn back">会員一覧</a>
+      </div>
+    <?php endif; ?>
   </div>
 
 </body>

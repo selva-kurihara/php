@@ -66,6 +66,10 @@ $comments = $commentsStmt->fetchAll(PDO::FETCH_ASSOC);
 
 // いいね登録・削除
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['comment_id'], $_POST['thread_id'])) {
+  if (!$isLoggedIn) {
+    header("Location: member_regist.php");
+    exit;
+  }
   $commentId = (int)$_POST['comment_id'];
   $memberId = (int)$_SESSION['user']['id'];
   $threadId = (int)$_POST['thread_id'];
@@ -94,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['comment_id'], $_POST[
 }
 
 // コメント登録
-if ($_SERVER["REQUEST_METHOD"] === "POST" && $_POST['comment']) {
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['comment'])) {
 
   // エラーチェック
   $errorMessages = [];

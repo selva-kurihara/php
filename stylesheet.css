@@ -540,3 +540,165 @@ textarea {
   border-radius: 6px;
   margin-bottom: 20px;
 }
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 30px;
+  font-family: "Helvetica Neue", sans-serif;
+  color: #333;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 5px;
+}
+
+/* 検索フォーム */
+.search-form {
+  background-color: #f9f9f9;
+  padding: 20px;
+  margin-bottom: 30px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input[type="text"],
+select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.gender {
+  display: inline-block;
+  margin-right: 10px;
+  font-weight: normal;
+}
+
+.buttons {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.btn {
+  background-color: #1976d2;
+  color: white;
+  padding: 8px 18px;
+  text-decoration: none;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn:hover {
+  background-color: #1565c0;
+}
+
+.btn-top {
+  margin-top: 40px;
+  display: inline-block;
+}
+
+/* 会員テーブル */
+.member-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+}
+
+.member-table th,
+.member-table td {
+  padding: 12px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.member-table th {
+  background-color: #f0f0f0;
+}
+
+.member-table tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+/* ソート矢印 */
+.member-table th a {
+  font-size: 12px;
+  margin-left: 5px;
+  text-decoration: none;
+  color: #555;
+}
+
+.member-table th a:hover {
+  color: #1976d2;
+}
+
+/* ページネーション */
+.pagination {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.pagination a {
+  display: inline-block;
+  margin: 0 5px;
+  padding: 6px 12px;
+  text-decoration: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  color: #1976d2;
+  transition: background-color 0.2s;
+}
+
+.pagination a:hover {
+  background-color: #eee;
+}
+
+.pagination a.active {
+  background-color: #1976d2;
+  color: white;
+  border-color: #1976d2;
+}
+
+.pagination {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.pagination a,
+.pagination span {
+  display: inline-block;
+  border: 1px solid #000;
+  padding: 6px 12px;
+  margin: 0 2px;
+  text-decoration: none;
+  color: #000;
+}
+
+.pagination .current {
+  background: #333;
+  color: #fff;
+  font-weight: bold;
+}
+
+.pagination .disabled {
+  color: #999;
+  border: 1px solid #ccc;
+  cursor: not-allowed;
+}
