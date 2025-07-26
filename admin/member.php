@@ -102,6 +102,10 @@ $members = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <div class="container">
     <h2>会員一覧</h2>
 
+    <div class="buttons-left">
+      <a href="member_regist.php" class="btn-register">会員登録</a>
+    </div>
+
     <form class="search-form" method="GET" action="">
       <div class="form-group">
         <label for="id">ID</label>
@@ -206,6 +210,7 @@ $members = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   登録日時 <?= $sort === 'created_at' ? ($order === 'asc' ? '▲' : '▼') : '▼' ?>
                 </a>
               </th>
+              <th>編集</th>
             </tr>
           </thead>
           <tbody>
@@ -222,6 +227,7 @@ $members = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </td>
                 <td><?= htmlspecialchars($member['pref_name'] . ($member['address'])) ?></td>
                 <td><?= htmlspecialchars($member['created_at']) ?></td>
+                <td><a href="member_edit.php?id=<?= htmlspecialchars($member['id']) ?>">編集</a></td>
               </tr>
             <?php endforeach; ?>
           </tbody>

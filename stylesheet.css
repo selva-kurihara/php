@@ -702,3 +702,45 @@ select {
   border: 1px solid #ccc;
   cursor: not-allowed;
 }
+
+.buttons-left {
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.btn-register {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #007bff; /* 青系 */
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-register:hover {
+  background-color: #0056b3;
+}
+
+.btn-link {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #ccc;
+  color: black;
+  text-decoration: none;
+  border: 1px solid #888;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-link:hover {
+  background-color: #bbb;
+}
+
+.form-static {
+  padding: 6px 10px;
+  background-color: #eee;
+  border-radius: 4px;
+}
