@@ -2,7 +2,11 @@
 
 session_start();
 
-$isLoggedIn = isset($_SESSION['user']);
+$isLoggedIn = isset($_SESSION['administer']);
+
+if (!$isLoggedIn) {
+  header("Location: login.php");
+}
 
 try {
   // DB接続
@@ -46,6 +50,7 @@ try {
   $sort = in_array($_GET['sort'] ?? '', $sortableColumns) ? $_GET['sort'] : 'id';
   $order = strtolower($_GET['order'] ?? 'desc') === 'desc' ? 'desc' : 'asc';
 
+  $where[] = 'deleted_at IS NULL';
   // クエリ組み立て
   $sql = 'SELECT * FROM members';
   if (!empty($where)) {

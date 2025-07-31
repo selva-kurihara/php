@@ -12,6 +12,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
 
 // ログイン状態かどうかを判定
 $isLoggedIn = isset($_SESSION['administer']);
+
+if (!$isLoggedIn) {
+  header("Location: login.php");
+}
+
 ?>
 
 <!DOCTYPE html>

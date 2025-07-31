@@ -2,6 +2,12 @@
 // セッション開始
 session_start();
 
+$isLoggedIn = isset($_SESSION['administer']);
+
+if (!$isLoggedIn) {
+  header("Location: login.php");
+}
+
 // エラーメッセージの初期化
 $errorMessages = [];
 
@@ -109,7 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $errorMessages["password"] = 'パスワードは半角英数字8〜20文字で入力してください。';
   }
 
- if ($_POST["password"] !== $_POST["password_confirm"]) {
+  if ($_POST["password"] !== $_POST["password_confirm"]) {
     $errorMessages["password_confirm"] = 'パスワードと確認用パスワードが一致しません。';
   }
 
@@ -142,6 +148,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
   // 「確認へ進む」ボタンが押された場合のみ、セッション保存＋リダイレクト
   if (isset($_POST['action']) && $_POST['action'] === 'confirm' && empty($errorMessages)) {
+    $_POST['type'] = 'edit';
     $_SESSION['form'] = $_POST;
 
     header("Location: member_confirm.php");
@@ -155,8 +162,8 @@ $first_name   = isset($_POST['first_name']) ? $_POST['first_name'] : (isset($mem
 $gender       = isset($_POST['gender']) ? $_POST['gender'] : (isset($member['gender']) ? $member['gender'] : '');
 $prefecture   = isset($_POST['prefecture']) ? $_POST['prefecture'] : (isset($member['pref_name']) ? $member['pref_name'] : '');
 $address      = isset($_POST['address']) ? $_POST['address'] : (isset($member['address']) ? $member['address'] : '');
-$password     = isset($_POST['address']) ? "" : (isset($member['password']) ? $member['password'] : '');
-$password_confirm = isset($_POST['address']) ? "" : (isset($member['password']) ? $member['password'] : '');
+$password     = isset($_POST['password']) ? $_POST['password'] : '';
+$password_confirm = isset($_POST['password_confirm']) ? $_POST['password_confirm'] : '';
 $email        = isset($_POST['email']) ? $_POST['email'] : (isset($member['email']) ? $member['email'] : '');
 
 ?>
@@ -180,6 +187,7 @@ $email        = isset($_POST['email']) ? $_POST['email'] : (isset($member['email
       <div class="form-row">
         <label class="form-label">ID</label>
         <span class="form-note"><?= htmlspecialchars($member['id']) ?></span>
+        <input type="hidden" name="id" value="<?= htmlspecialchars($member['id']) ?>">
       </div>
 
       <label>氏名</label>

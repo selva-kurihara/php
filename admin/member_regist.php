@@ -2,6 +2,11 @@
 // セッション開始
 session_start();
 
+$isLoggedIn = isset($_SESSION['administer']);
+
+if (!$isLoggedIn) {
+  header("Location: login.php");
+}
 // エラーメッセージの初期化
 $errorMessages = [];
 

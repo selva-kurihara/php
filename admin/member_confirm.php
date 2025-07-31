@@ -3,63 +3,27 @@ session_start();
 
 $form = $_SESSION['form'];
 
+$isLoggedIn = isset($_SESSION['administer']);
+
+if (!$isLoggedIn) {
+  header("Location: login.php");
+}
+
 // トークン生成（1回目の表示時のみ）
 if (!isset($_SESSION['token'])) {
   $_SESSION['token'] = bin2hex(random_bytes(16));
 }
 $token = $_SESSION['token'];
 
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["regist_complete"])) {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-  // トークンチェック＆二重送信スキップ
+  // トークンチェック（二重送信防止）
   if (!isset($_POST["token"]) || $_POST["token"] !== $_SESSION['token']) {
-    // トークンが消費済み＝二重送信と判断 → 完了画面にリダイレクト
     header('Location: member.php');
     exit;
   }
 
-  // トークン無効化（使い捨て）
-  unset($_SESSION['token']);
-  
-  try {
-    // DB接続
-    $dsn = 'mysql:dbname=phpkadai;host=localhost;charset=utf8;';
-    $user = 'kurihara';
-    $password = 'uCmCLu2e8H';
-    $pdo = new PDO($dsn, $user, $password);
-
-    // 新規登録
-    $prepare = $pdo->prepare('INSERT INTO members (name_sei, name_mei, gender, pref_name, address, password, email, created_at) VALUES (:name_sei, :name_mei, :gender, :pref_name, :address, :password, :email, NOW())');
-    $prepare->bindValue(':name_sei', $form['last_name'], PDO::PARAM_STR);
-    $prepare->bindValue(':name_mei', $form['first_name'], PDO::PARAM_STR);
-    $prepare->bindValue(':gender', $form['gender'], PDO::PARAM_INT);
-    $prepare->bindValue(':pref_name', $form['prefecture'], PDO::PARAM_STR);
-    $prepare->bindValue(':address', $form['address'], PDO::PARAM_STR);
-    $prepare->bindValue(':password', $form['password'], PDO::PARAM_STR);
-    $prepare->bindValue(':email', $form['email'], PDO::PARAM_STR);
-    $prepare->execute();
-
-    // 完了後にセッションのformも破棄
-    unset($_SESSION['form']);
-
-    header('Location: member.php');
-    exit;
-  } catch (PDOException $e) {
-    error_log('DBエラー: ' . $e->getMessage());
-    echo 'DBエラーが発生しました。';
-  }
-}
-
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["edit_complete"])) {
-
-  // トークンチェック＆二重送信スキップ
-  if (!isset($_POST["token"]) || $_POST["token"] !== $_SESSION['token']) {
-    // トークンが消費済み＝二重送信と判断 → 完了画面にリダイレクト
-    header('Location: member.php');
-    exit;
-  }
-
-  // トークン無効化（使い捨て）
+  // トークンは一度使ったら無効化
   unset($_SESSION['token']);
 
   try {
@@ -68,37 +32,84 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["edit_complete"])) {
     $user = 'kurihara';
     $password = 'uCmCLu2e8H';
     $pdo = new PDO($dsn, $user, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $prepare = $pdo->prepare('
-      UPDATE members 
-      SET 
-        name_sei   = :name_sei,
-        name_mei   = :name_mei,
-        gender     = :gender,
-        pref_name  = :pref_name,
-        address    = :address,
-        password   = :password,
-        email      = :email
-      WHERE id = :id
-    ');
+    // 登録処理
+    if (isset($_POST['regist_complete']) && $form['type'] === 'regist') {
+      $stmt = $pdo->prepare('
+        INSERT INTO members 
+        (name_sei, name_mei, gender, pref_name, address, password, email, created_at)
+        VALUES 
+        (:name_sei, :name_mei, :gender, :pref_name, :address, :password, :email, NOW())
+      ');
+      $stmt->bindValue(':name_sei', $form['last_name'], PDO::PARAM_STR);
+      $stmt->bindValue(':name_mei', $form['first_name'], PDO::PARAM_STR);
+      $stmt->bindValue(':gender', $form['gender'], PDO::PARAM_INT);
+      $stmt->bindValue(':pref_name', $form['prefecture'], PDO::PARAM_STR);
+      $stmt->bindValue(':address', $form['address'], PDO::PARAM_STR);
+      $stmt->bindValue(':password', $form['password'], PDO::PARAM_STR);
+      $stmt->bindValue(':email', $form['email'], PDO::PARAM_STR);
+      $stmt->execute();
 
-    $prepare->bindValue(':name_sei', $form['last_name'], PDO::PARAM_STR);
-    $prepare->bindValue(':name_mei', $form['first_name'], PDO::PARAM_STR);
-    $prepare->bindValue(':gender', $form['gender'], PDO::PARAM_INT);
-    $prepare->bindValue(':pref_name', $form['prefecture'], PDO::PARAM_STR);
-    $prepare->bindValue(':address', $form['address'], PDO::PARAM_STR);
-    $prepare->bindValue(':password', $form['password'], PDO::PARAM_STR);
-    $prepare->bindValue(':email', $form['email'], PDO::PARAM_STR);
-    $prepare->bindValue(':id', $form['id'], PDO::PARAM_INT); // ID指定を忘れずに！
+      unset($_SESSION['form']);
+      header('Location: member.php');
+      exit;
 
-    $prepare->execute();
+      // 編集処理
+    } elseif (isset($_POST['edit_complete']) && $form['type'] === 'edit') {
 
-    unset($_SESSION['form']);
-    header('Location: member.php');
-    exit;
+      // パスワード入力の有無でSQL分岐
+      if (!empty($form['password'])) {
+        $sql = '
+          UPDATE members 
+          SET 
+            name_sei   = :name_sei,
+            name_mei   = :name_mei,
+            gender     = :gender,
+            pref_name  = :pref_name,
+            address    = :address,
+            password   = :password,
+            email      = :email,
+            updated_at = NOW()
+          WHERE id = :id
+        ';
+      } else {
+        $sql = '
+          UPDATE members 
+          SET 
+            name_sei   = :name_sei,
+            name_mei   = :name_mei,
+            gender     = :gender,
+            pref_name  = :pref_name,
+            address    = :address,
+            email      = :email,
+            updated_at = NOW()
+          WHERE id = :id
+        ';
+      }
+
+      $stmt = $pdo->prepare($sql);
+      $stmt->bindValue(':name_sei', $form['last_name'], PDO::PARAM_STR);
+      $stmt->bindValue(':name_mei', $form['first_name'], PDO::PARAM_STR);
+      $stmt->bindValue(':gender', $form['gender'], PDO::PARAM_INT);
+      $stmt->bindValue(':pref_name', $form['prefecture'], PDO::PARAM_STR);
+      $stmt->bindValue(':address', $form['address'], PDO::PARAM_STR);
+      $stmt->bindValue(':email', $form['email'], PDO::PARAM_STR);
+      $stmt->bindValue(':id', $form['id'], PDO::PARAM_INT);
+
+      if (!empty($form['password'])) {
+        $stmt->bindValue(':password', $form['password'], PDO::PARAM_STR);
+      }
+
+      $stmt->execute();
+
+      unset($_SESSION['form']);
+      header('Location: member.php');
+      exit;
+    }
   } catch (PDOException $e) {
     error_log('DBエラー: ' . $e->getMessage());
-    echo 'DBエラーが発生しました。';
+    echo 'データベースエラーが発生しました。';
   }
 }
 ?>
